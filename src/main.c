@@ -8,7 +8,7 @@ typedef struct node_t {
     struct node_t *next;
 } node_t;
 
-void fillrr(node_t *, size_t, int);
+void fillrr(node_t *, node_t *, size_t, int);
 void freel(node_t *);
 void print(node_t *);
 void bbsort(node_t *);
@@ -21,8 +21,9 @@ int main(void) {
     head->idx = 0;
     head->data = 0;
     head->next = NULL;
-
-    fillrr(head, 100, 10);
+    
+    node_t *new = NULL;
+    fillrr(head, new, 100, 10);
     
     printf("\nBefore sort: \n");
     print(head);
@@ -35,13 +36,14 @@ int main(void) {
     printf("\n");
 
     freel(head);
+    free(new);
     return 0;
 }
 
-void fillrr(node_t *head, size_t n, int range) {
+void fillrr(node_t *head, node_t *new, size_t n, int range) {
     node_t *p = head;
     for (size_t i = 0; i < n - 1; ++i) {
-        node_t *new = malloc(sizeof(node_t));
+        new = malloc(sizeof(node_t));
         new->idx = 0;
         new->data = rand() % range;
         new->next = NULL;
@@ -49,6 +51,8 @@ void fillrr(node_t *head, size_t n, int range) {
         p->next = new;
         p = p->next;
     }
+
+    p->next = NULL;
 }
 
 void freel(node_t *head) {
